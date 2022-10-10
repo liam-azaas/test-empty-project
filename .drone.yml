@@ -12,6 +12,6 @@ steps:
   - name: build
     image: mcr.microsoft.com/dotnet/framework/sdk:4.8
     commands:
-      - msbuild "WebApplication1\WebApplication1.csproj" -t:restore;rebuild;publish /p:Configuration=Release -r:False /p:DeployOnBuild=True /p:DeployDefaultTarget=WebPublish /p:WebPublishMethod=FileSystem /p:DeleteExistingFiles=True /p:publishUrl=./output
+      - msbuild "WebApplication1\WebApplication1.csproj" -t:restore /p:Configuration=Release -r:False /p:DeployOnBuild=True /p:DeployDefaultTarget=WebPublish /p:WebPublishMethod=FileSystem /p:DeleteExistingFiles=True /p:publishUrl=./output
       - ls ./output
 # MSBuild %PROJECT%  /p:DeployOnBuild=True /p:DeployDefaultTarget=WebPublish /p:WebPublishMethod=FileSystem /p:DeleteExistingFiles=True /p:publishUrl=%PUBLISH_DIRECTORY%
