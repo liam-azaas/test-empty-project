@@ -1,6 +1,6 @@
 kind: pipeline
 type: docker
-name: build
+name: default
 
 # windows required
 platform:
@@ -18,4 +18,9 @@ steps:
       #
       - msbuild "WebApplication1\WebApplication1.csproj" /p:Configuration=Release -r:False /p:DeployOnBuild=True /p:DeployDefaultTarget=WebPublish /p:WebPublishMethod=FileSystem /p:DeleteExistingFiles=True /p:publishUrl=../output
       - dir ./output
-# MSBuild %PROJECT%  /p:DeployOnBuild=True /p:DeployDefaultTarget=WebPublish /p:WebPublishMethod=FileSystem /p:DeleteExistingFiles=True /p:publishUrl=%PUBLISH_DIRECTORY%
+
+  - name: docker
+    image: plugins/docker
+    settings:
+      repo: test
+      tags: ["${DRONE_COMMIT_SHA:0:7}", "latest"]
