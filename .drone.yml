@@ -1,0 +1,9 @@
+kind: pipeline
+type: docker
+name: default
+
+steps:
+  - name: build
+    image: mcr.microsoft.com/dotnet/framework/sdk:4.8
+    commands:
+      - msbuild "WebApplication1\WebApplication1.csproj" /p:Configuration=Release -r:False
