@@ -18,7 +18,7 @@ steps:
       - nuget restore WebApplication1.sln
       #
       - msbuild "WebApplication1\WebApplication1.csproj" /p:Configuration=Release -r:False /p:DeployOnBuild=True /p:DeployDefaultTarget=WebPublish /p:WebPublishMethod=FileSystem /p:DeleteExistingFiles=True /p:publishUrl=../output
-      - dir ./output
+      - ls ./output
 
   - name: docker-build
     image: docker:dind
