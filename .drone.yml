@@ -25,9 +25,11 @@ steps:
     commands:
       - powershell
       - pwd
+      - ls ./output
       - docker info
       - cp -r ./output ./devops/wwwroot
-      - ./devops/build.ps1
+      - cd ./devops
+      - ./build.ps1
 
   # - name: github-release
   #   image: plugins/github-release
