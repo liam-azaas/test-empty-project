@@ -1,12 +1,12 @@
 kind: pipeline
 type: docker
-name: default
+name: source
 
 # windows required
 platform:
   os: windows
-  arch: amd64
-  # version: "1903"
+  # arch: amd64
+  # version: "1809"
 
 steps:
   - name: build
@@ -20,7 +20,44 @@ steps:
       - msbuild "WebApplication1\WebApplication1.csproj" /p:Configuration=Release -r:False /p:DeployOnBuild=True /p:DeployDefaultTarget=WebPublish /p:WebPublishMethod=FileSystem /p:DeleteExistingFiles=True /p:publishUrl=../output
       - ls ./output
 
-  - name: docker-build
-    image: docker:dind
+  # - name: docker-build
+  #   image: docker:dind
+  #   commands:
+  #     - docker info
+
+  # - name: github-release
+  #   image: plugins/github-release
+  #   settings:
+  #     api_key: xxxxxxxx
+  #     files: dist/*
+
+---
+kind: pipeline
+type: ssh
+name: docker
+
+platform:
+  os: windows
+
+server:
+  host:
+    from_secret: windows_host
+  password:
+    from_secret: windows_password
+  user:
+    from_secret: windows_username
+
+steps:
+  - name: build
+    environment:
+      VERSION: 1903
+      # USERNAME:
+      #   from_secret: docker_username
+      # PASSWORD:
+      #   from_secret: docker_password
     commands:
-      - docker info
+      - powershell.exe "cp ./output ./devops/wwwroot"
+      - powershell.exe devops/build.ps1
+
+depends_on:
+  - source
