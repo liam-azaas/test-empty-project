@@ -56,9 +56,9 @@ steps:
       # PASSWORD:
       #   from_secret: docker_password
     commands:
-      - dir 
-      - powershell.exe "cp ./output ./devops/wwwroot"
-      - powershell.exe devops/build.ps1
+      - dir
+      - pwsh.exe "cp ./output ./devops/wwwroot"
+      - pwsh.exe devops/build.ps1
 
 depends_on:
   - source
