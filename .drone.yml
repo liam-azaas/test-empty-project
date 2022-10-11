@@ -23,7 +23,7 @@ steps:
   - name: docker-build
     # image: docker:dind
     environment:
-      VERSION: "1.0.${DRONE_BUILD_NUMBER}"
+      VERSION: "1.${DRONE_BUILD_NUMBER}"
       DOCKER_USERNAME:
         from_secret: docker_username
       DOCKER_PASSWORD:
@@ -62,7 +62,7 @@ steps:
       deployment: test
       repo: pkgs.azaas.xyz/test-images/test
       container: web
-      tag: "1.0.${DRONE_BUILD_NUMBER}"
+      tag: "1.${DRONE_BUILD_NUMBER}"
 trigger:
   event:
     - promote
