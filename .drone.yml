@@ -13,7 +13,7 @@ steps:
     commands:
       - powershell
       #
-      - curl.exe -o nuget.exe https://dist.nuget.org/win-x86-commandline/latest/nuget.exe
+      #- curl.exe -o nuget.exe https://dist.nuget.org/win-x86-commandline/latest/nuget.exe
       - nuget.exe restore WebApplication1.sln
       #
       - msbuild "WebApplication1\WebApplication1.csproj" /p:Configuration=Release -r:False /p:DeployOnBuild=True /p:DeployDefaultTarget=WebPublish /p:WebPublishMethod=FileSystem /p:DeleteExistingFiles=True /p:publishUrl=../output
