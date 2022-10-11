@@ -42,6 +42,20 @@ steps:
   #   settings:
   #     api_key: xxxxxxxx
   #     files: dist/*
+  #
+  - name: deploy
+    image: quay.io/honestbee/drone-kubernetes
+    settings:
+      kubernetes_server:
+        from_secret: xclubsys_kubernetes_server
+      kubernetes_token:
+        from_secret: xclubsys_kubernetes_token
+      namespace: default
+      deployment: test
+      repo: pkgs.azaas.xyz/test-images/test
+      container: web
+      tag: 1.0
+    #
 # ---
 # kind: pipeline
 # type: ssh
