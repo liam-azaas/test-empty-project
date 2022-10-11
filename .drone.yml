@@ -11,7 +11,7 @@ steps:
   - name: build
     # image: mcr.microsoft.com/dotnet/framework/sdk:4.8
     commands:
-      - powershell
+      - pwsh
       #
       # - curl.exe -o nuget.exe https://dist.nuget.org/win-x86-commandline/latest/nuget.exe
       - nuget.exe restore WebApplication1.sln
@@ -22,7 +22,14 @@ steps:
 
   - name: docker-build
     # image: docker:dind
+    environment:
+      VERSION: "1.0"
+      DOCKER_USERNAME:
+        from_secret: docker_username
+      DOCKER_PASSWORD:
+        from_secret: docker_password
     commands:
+      # - docker info
       - pwsh
       - pwd
       - ls ./output
