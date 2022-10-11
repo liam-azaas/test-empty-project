@@ -23,7 +23,7 @@ steps:
   - name: docker-build
     # image: docker:dind
     environment:
-      VERSION: "1.0"
+      VERSION: "1.0.${DRONE_BUILD_NUMBER}"
       DOCKER_USERNAME:
         from_secret: docker_username
       DOCKER_PASSWORD:
@@ -48,7 +48,7 @@ steps:
 ---
 kind: pipeline
 type: docker
-name: deployment
+name: deployment-uat
 
 steps:
   - name: deploy
@@ -62,42 +62,12 @@ steps:
       deployment: test
       repo: pkgs.azaas.xyz/test-images/test
       container: web
-      tag: 1.0
-      
+      tag: "1.0.${DRONE_BUILD_NUMBER}"
 trigger:
   event:
     - promote
   target:
     - uat
-    
-# ---
-# kind: pipeline
-# type: ssh
-# name: docker
-
-# platform:
-#   os: windows
-
-# server:
-#   host:
-#     from_secret: windows_host
-#   password:
-#     from_secret: windows_password
-#   user:
-#     from_secret: windows_username
-
-# steps:
-#   - name: build
-#     environment:
-#       VERSION: 1809
-#       # USERNAME:
-#       #   from_secret: docker_username
-#       # PASSWORD:
-#       #   from_secret: docker_password
-#     commands:
-#       - dir
-#       - pwsh.exe "cp ./output ./devops/wwwroot"
-#       - pwsh.exe devops/build.ps1
-
+#
 # depends_on:
 #   - source
