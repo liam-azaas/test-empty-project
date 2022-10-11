@@ -47,8 +47,8 @@ steps:
   #
 ---
 kind: pipeline
-type: ssh
-name: deploy
+type: docker
+name: deployment
 
 steps:
   - name: deploy
