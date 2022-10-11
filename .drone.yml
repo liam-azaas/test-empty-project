@@ -1,8 +1,7 @@
 kind: pipeline
-type: docker
-name: source
+type: exec
+name: default
 
-# windows required
 platform:
   os: windows
   # arch: amd64
@@ -10,7 +9,7 @@ platform:
 
 steps:
   - name: build
-    image: mcr.microsoft.com/dotnet/framework/sdk:4.8
+    # image: mcr.microsoft.com/dotnet/framework/sdk:4.8
     commands:
       - powershell
       #
@@ -20,45 +19,46 @@ steps:
       - msbuild "WebApplication1\WebApplication1.csproj" /p:Configuration=Release -r:False /p:DeployOnBuild=True /p:DeployDefaultTarget=WebPublish /p:WebPublishMethod=FileSystem /p:DeleteExistingFiles=True /p:publishUrl=../output
       - ls ./output
 
-  # - name: docker-build
-  #   image: docker:dind
-  #   commands:
-  #     - docker info
+  - name: docker-build
+    # image: docker:dind
+    commands:
+      - docker info
+      - pwsh.exe "cp -r ./output ./devops/wwwroot"
+      - pwsh.exe ./devops/build.ps1
 
   # - name: github-release
   #   image: plugins/github-release
   #   settings:
   #     api_key: xxxxxxxx
   #     files: dist/*
+# ---
+# kind: pipeline
+# type: ssh
+# name: docker
 
----
-kind: pipeline
-type: ssh
-name: docker
+# platform:
+#   os: windows
 
-platform:
-  os: windows
+# server:
+#   host:
+#     from_secret: windows_host
+#   password:
+#     from_secret: windows_password
+#   user:
+#     from_secret: windows_username
 
-server:
-  host:
-    from_secret: windows_host
-  password:
-    from_secret: windows_password
-  user:
-    from_secret: windows_username
+# steps:
+#   - name: build
+#     environment:
+#       VERSION: 1809
+#       # USERNAME:
+#       #   from_secret: docker_username
+#       # PASSWORD:
+#       #   from_secret: docker_password
+#     commands:
+#       - dir
+#       - pwsh.exe "cp ./output ./devops/wwwroot"
+#       - pwsh.exe devops/build.ps1
 
-steps:
-  - name: build
-    environment:
-      VERSION: 1903
-      # USERNAME:
-      #   from_secret: docker_username
-      # PASSWORD:
-      #   from_secret: docker_password
-    commands:
-      - dir
-      - pwsh.exe "cp ./output ./devops/wwwroot"
-      - pwsh.exe devops/build.ps1
-
-depends_on:
-  - source
+# depends_on:
+#   - source
