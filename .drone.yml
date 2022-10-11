@@ -43,6 +43,14 @@ steps:
   #     api_key: xxxxxxxx
   #     files: dist/*
   #
+
+  #
+---
+kind: pipeline
+type: ssh
+name: deploy
+
+steps:
   - name: deploy
     image: quay.io/honestbee/drone-kubernetes
     settings:
@@ -55,7 +63,6 @@ steps:
       repo: pkgs.azaas.xyz/test-images/test
       container: web
       tag: 1.0
-    #
 # ---
 # kind: pipeline
 # type: ssh
