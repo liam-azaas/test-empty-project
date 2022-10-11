@@ -1,13 +1,13 @@
 # show info 
 docker info 
-
-$env:VERSION = "1.0"
-echo $env:VERSION
+ 
+$version = $env:VERSION;
+$imageHost = "azinternal-devops-01.southeastasia.cloudapp.azure.com:18000";
 
 # build and publish the docker image
-# docker login -u $env:USERNAME -p $env:PASSWORD
-docker build -f Dockerfile -t test-$env:VERSION .
-# docker push test-$env:VERSION
+docker login -u $env:DOCKER_USERNAME -p $env:DOCKER_PASSWORD  $imageHost
+docker build -f Dockerfile -t "${imageHost}/test:${version}" .
+docker push "${imageHost}/test:${version}"
 
 # remove images from local cache
-# docker rmi test-$env:VERSION
+docker rmi "${imageHost}/test:${version}"
