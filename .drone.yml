@@ -63,6 +63,13 @@ steps:
       repo: pkgs.azaas.xyz/test-images/test
       container: web
       tag: 1.0
+      
+trigger:
+  event:
+    - promote
+  target:
+    - uat
+    
 # ---
 # kind: pipeline
 # type: ssh
