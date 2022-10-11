@@ -13,18 +13,21 @@ steps:
     commands:
       - powershell
       #
-      #- curl.exe -o nuget.exe https://dist.nuget.org/win-x86-commandline/latest/nuget.exe
+      # - curl.exe -o nuget.exe https://dist.nuget.org/win-x86-commandline/latest/nuget.exe
       - nuget.exe restore WebApplication1.sln
       #
       - msbuild "WebApplication1\WebApplication1.csproj" /p:Configuration=Release -r:False /p:DeployOnBuild=True /p:DeployDefaultTarget=WebPublish /p:WebPublishMethod=FileSystem /p:DeleteExistingFiles=True /p:publishUrl=../output
       - ls ./output
+      - pwd
 
   - name: docker-build
     # image: docker:dind
     commands:
+      - powershell
+      - pwd
       - docker info
-      - pwsh.exe "cp -r ./output ./devops/wwwroot"
-      - pwsh.exe ./devops/build.ps1
+      - cp -r ./output ./devops/wwwroot
+      - ./devops/build.ps1
 
   # - name: github-release
   #   image: plugins/github-release
