@@ -23,10 +23,9 @@ steps:
   - name: docker-build
     # image: docker:dind
     commands:
-      - powershell
+      - pwsh
       - pwd
       - ls ./output
-      - docker info
       - cp -r ./output ./devops/wwwroot
       - cd ./devops
       - ./build.ps1
