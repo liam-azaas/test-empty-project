@@ -51,7 +51,7 @@ type: docker
 name: deployment-uat
 
 steps:
-  - name: deploy
+  - name: deploy-dev
     image: quay.io/honestbee/drone-kubernetes
     settings:
       kubernetes_server:
@@ -63,11 +63,14 @@ steps:
       repo: pkgs.azaas.xyz/test-images/test
       container: web
       tag: "1.${DRONE_BUILD_NUMBER}"
-trigger:
-  event:
-    - promote
-  target:
-    - uat
+    when:
+        event: deployment
+        environment: dev
+# trigger:
+#   event:
+#     - promote
+#   target:
+#     - uat
 #
 # depends_on:
 #   - source
