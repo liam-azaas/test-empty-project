@@ -63,11 +63,12 @@ steps:
       repo: pkgs.azaas.xyz/test-images/test
       container: web
       tag: "1.${DRONE_BUILD_NUMBER}"
-  when:
-    event:
-    - promote
-    target:
-    - production
+when:
+  event:
+  - promote
+  target:
+  - production
+  #
 # trigger:
 #   event:
 #     - promote
